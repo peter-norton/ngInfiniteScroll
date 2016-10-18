@@ -14,6 +14,7 @@ angular.module(MODULE_NAME, [])
       infiniteScrollDistance: '=',
       infiniteScrollDisabled: '=',
       infiniteScrollUseDocumentBottom: '=',
+      infiniteScrollThrottle: '=',
       infiniteScrollListenForEvent: '@',
     },
 
@@ -131,8 +132,9 @@ angular.module(MODULE_NAME, [])
         return throttled;
       }
 
-      const handler = (THROTTLE_MILLISECONDS != null) ?
-        throttle(defaultHandler, THROTTLE_MILLISECONDS) :
+      const throttleMilleseconds = scope.infiniteScrollThrottle || THROTTLE_MILLISECONDS;
+      const handler = (throttleMilleseconds != null) ?
+        throttle(defaultHandler, throttleMilleseconds) :
         defaultHandler;
 
       function handleDestroy() {
